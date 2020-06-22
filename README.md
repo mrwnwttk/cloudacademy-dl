@@ -6,7 +6,7 @@ I wrote this within an hour or so, therefore bugs are to be expected.
 ## Installation
 Install on Ubuntu (Example, may vary from OS to OS):
 ```
-$ python3 -m pip install -r requirements
+$ python3 -m pip install -r requirements.txt
 ```
 
 ## Usage
