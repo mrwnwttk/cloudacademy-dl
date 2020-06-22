@@ -3,6 +3,16 @@ import os
 import requests
 import json
 import urllib
+import sys
+
+aria2cflag = 0
+
+for arg in sys.argv:
+	if arg == "--aria2c":
+		aria2cflag = 1
+
+if aria2cflag != 0:
+	print("Using aria2c for the downloads!")
 
 print("Loading cookie from file cookie.txt")
 cookie = ""
@@ -15,7 +25,7 @@ except:
 print("Cookie read!")
 headers = {
 	'cookie': cookie
-}
+    }
 
 
 def fix_string_filename(string):
@@ -45,23 +55,25 @@ def get_course_mp4_url_and_title(url):
 		v = value
 	for i in range(len(j["course"]["stepMap"][str(v)]["data"]["player"]["sources"])):
 		video_titles.append(j["course"]["stepMap"][str(v)]["data"]["title"])
-		if '.mp4' in j["course"]["stepMap"][str(v)]["data"]["player"]["sources"][i]["src"] and '1080' in j["course"]["stepMap"][str(v)]["data"]["player"]["sources"][i]["src"]:
+		if '1080' in j["course"]["stepMap"][str(v)]["data"]["player"]["sources"][i]["src"]:
 			video_mp4_urls.append(j["course"]["stepMap"][str(v)]["data"]["player"]["sources"][i]["src"])
 	return video_mp4_urls[0], video_titles[0]
 
 def download_single_course(url):
+	global aria2cflag
 	global cookie
 	global headers
 	print("Downloading webpage...")
 
-	r = requests.get(url, headers=headers).text
-	content = (r.split("window.__INITIAL_STATE__ = ")[1]).split(";</script>")[0]
+	r = requests.get(url, headers=headers)
+	r_text = r.text
+	content = (r_text.split("window.__INITIAL_STATE__ = ")[1]).split(";</script>")[0]
 	j = json.loads(content)
-
+	
 	print("Getting URLs of courses...")
 	course_urls = []
-	courses_regex = re.findall(r"<a palette=\"lecture\" [a-zA-Z0-9=\"\- \/]{1,}", r)
-	course_urls.append(url)
+	courses_regex = re.findall(r"<a palette=\"lecture\" [a-zA-Z0-9=\"\- \/]{1,}", r_text)
+	course_urls.append(r.url)
 	for u in courses_regex:
 		course_urls.append("https://cloudacademy.com" + (u.split("href=\"")[1]).split("\"")[0])
 
@@ -81,15 +93,23 @@ def download_single_course(url):
 	for u in range(len(course_urls)):
 		video_url, video_title = get_course_mp4_url_and_title(course_urls[u])
 		print("{} - {}".format(video_title, video_url))
-		urllib.request.urlretrieve(video_url, "{}/{}.mp4".format(fix_string_filename(title), fix_string_filename(video_title)))
-
+		extension = ""
+		if ".webm" in video_url:
+			extension = ".webm"
+		if ".mp4" in video_url:
+			extension = ".mp4"
+		if aria2cflag == 1:
+			os.system("aria2c -x 16 -o \"{}/{}{}\" \"{}\"".format(fix_string_filename(title), fix_string_filename(video_title), extension, video_url))
+		else:
+			urllib.request.urlretrieve(video_url, "{}/{}{}".format(fix_string_filename(title), fix_string_filename(video_title), extension))	
 
 def download_learning_path(url):
 	global cookie
 	global headers
-	r = requests.get(url, headers=headers).text
+	r = requests.get(url, headers=headers)
+	r_text = r.text
 	learning_path_courses = [] 
-	regex_courses = re.findall(r"https://cloudacademy.com/course/[a-zA-Z0-9\-]{1,}/", r)
+	regex_courses = re.findall(r"https://cloudacademy.com/course/[a-zA-Z0-9\-]{1,}/", r_text)
 	for x in regex_courses:
 		learning_path_courses.append(x)
 
