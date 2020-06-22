@@ -9,7 +9,12 @@ def get_course_title(url):
 	global headers
 	r = str(requests.get(url, headers=headers).content)
 	print("\t" + (r.split("<title data-react-helmet=\"true\">")[1]).split("</title>")[0])
-	return ((r.split("<title data-react-helmet=\"true\">")[1]).split("</title>")[0]).replace("|", "-")
+	string = ((r.split("<title data-react-helmet=\"true\">")[1]).split("</title>")[0]).replace("|", "-")
+	forbidden = ["?", "|", ":", "<", ">", "\"", "*"]
+	for char in forbidden:
+		if char in string:
+			string = string.replace(char, "-")
+	return string
 
 def get_course_mp4_url_and_title(url):
 	global cookie
