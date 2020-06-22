@@ -4,17 +4,20 @@ import requests
 import json
 import urllib
 
+def fix_string_filename(string):
+	forbidden = ["?", "|", ":", "<", ">", "\"", "*"]
+	for char in forbidden:
+		if char in string:
+			string = string.replace(char, "-")
+	return string
+
 def get_course_title(url):
 	global cookie
 	global headers
 	r = str(requests.get(url, headers=headers).content)
 	print("\t" + (r.split("<title data-react-helmet=\"true\">")[1]).split("</title>")[0])
 	string = ((r.split("<title data-react-helmet=\"true\">")[1]).split("</title>")[0]).replace("|", "-")
-	forbidden = ["?", "|", ":", "<", ">", "\"", "*"]
-	for char in forbidden:
-		if char in string:
-			string = string.replace(char, "-")
-	return string
+	return fix_string_filename(string)
 
 def get_course_mp4_url_and_title(url):
 	global cookie
@@ -67,9 +70,9 @@ for course in course_urls:
 
 print("Getting course title...")
 title = get_course_title(url)
-if not os.path.isdir(title):
+if not os.path.isdir(fix_string_filename(title)):
 	print("Creating folder for videos...")
-	os.mkdir(title)
+	os.mkdir(fix_string_filename(title))
 
 for value in j["course"]["stepMap"].keys():
 	v = value
@@ -78,4 +81,4 @@ print("Downloading videos...")
 for u in range(len(course_urls)):
 	video_url, video_title = get_course_mp4_url_and_title(course_urls[u])
 	print("{} - {}".format(video_title, video_url))
-	urllib.request.urlretrieve(video_url, "{}/{}.mp4".format(title, video_title))
+	urllib.request.urlretrieve(video_url, "{}/{}.mp4".format(fix_string_filename(title), fix_string_filename(video_title)))
