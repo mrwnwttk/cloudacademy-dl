@@ -80,7 +80,7 @@ def get_all_courses(url):
 		if len(regex_courses) == 0:
 			return course_list
 		for x in regex_courses:
-			course_list.append(x)
+			course_list.append("https://cloudacademy.com" + x)
 		len_results = 0
 
 def download_single_course(url):
