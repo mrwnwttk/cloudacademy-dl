@@ -19,7 +19,7 @@ print("Loading cookie from file cookie.txt")
 cookie = ""
 try:
 	with open("cookie.txt") as f:
-		cookie = f.read()
+		cookie = (f.read()).rstrip()
 except:
 	print("Could not read cookie! Exiting...")
 	exit()

@@ -10,10 +10,12 @@ $ python3 -m pip install -r requirements.txt
 ```
 
 ## Usage
-Sign up for either a demo account or a 7-day trial. Just visiting the website alone doesn't work. Log in and save the cookie from Chrome to a file called cookie.txt. The cookie looks a little like this:
+Sign up for either a demo account or a 7-day trial. Just visiting the website alone doesn't work. Log in and save the cookie from Chrome to a file called `cookie.txt`. Open the Inspect tools and click on the "Network" tab. Refresh the page. The first item in the list will be something like `https://cloudacademy.com/`. Click on it and copy the `cookie` parameter of the request. The cookie looks a little like this:
 ```
-louda-session=6fe4.............
+clouda-session=0f0f0f0f0f0f0-0f0f-0f0f-0f0f0f0f0f0f; csrftoken=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX; sessionid=xzxzxzxzxzxzxzxzxzxzxzxzxzxzxzxz; ca_jwt=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
+Paste the entire thing into `cookie.txt`. 
+
 The script can be run either with or without the --aria2c flag. For that to work aria2c needs to be installed and added to the respective PATH variable of your system.
 Then just run it like this:
 ```
