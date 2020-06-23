@@ -6,6 +6,7 @@ import urllib
 import sys
 
 aria2cflag = 0
+parallel_connections_aria2 = 16
 
 for arg in sys.argv:
 	if arg == "--aria2c":
@@ -63,6 +64,7 @@ def download_single_course(url):
 	global aria2cflag
 	global cookie
 	global headers
+	global parallel_connections_aria2
 	print("Downloading webpage...")
 
 	r = requests.get(url, headers=headers)
@@ -99,7 +101,7 @@ def download_single_course(url):
 		if ".mp4" in video_url:
 			extension = ".mp4"
 		if aria2cflag == 1:
-			os.system("aria2c -x 16 -o \"{}/{}{}\" \"{}\"".format(fix_string_filename(title), fix_string_filename(video_title), extension, video_url))
+			os.system("aria2c -x {} -o \"{}/{}{}\" \"{}\"".format(parallel_connections_aria2, fix_string_filename(title), fix_string_filename(video_title), extension, video_url))
 		else:
 			urllib.request.urlretrieve(video_url, "{}/{}{}".format(fix_string_filename(title), fix_string_filename(video_title), extension))	
 
