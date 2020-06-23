@@ -14,24 +14,33 @@ Save cookie from Chrome to a file called cookie.txt. The cookie looks a little l
 ```
 louda-session=6fe4.............
 ```
+The script can be run either with or without the --aria2c flag. For that to work aria2c needs to be installed and added to the respective PATH variable of your system.
 Then just run it like this:
 ```
 $ python3 cloud.py
-Please enter a URL of the course you want to download: https://cloudacademy.com/course/amazon-dynamodb-high-availability/course-introduction/
+```
+or
+```
+$ python3 cloud.py --aria2c
+```
+## Example
+```
+$ python3 cloud.py
+Using aria2c for the downloads!
 Loading cookie from file cookie.txt
 Cookie read!
+Please enter a URL of the course you want to download: https://cloudacademy.com/course/designing-and-implementing-an-agile-work-management-approach-1017/
 Downloading webpage...
 Getting URLs of courses...
-        https://cloudacademy.com/course/amazon-dynamodb-high-availability/course-introduction/
-        https://cloudacademy.com/course/amazon-dynamodb-high-availability/aws-dynamodb-ha-options/
-        https://cloudacademy.com/course/amazon-dynamodb-high-availability/aws-dynamodb-ha-options-demo/
-        https://cloudacademy.com/course/amazon-dynamodb-high-availability/on-demand-backup-and-restore/
-        https://cloudacademy.com/course/amazon-dynamodb-high-availability/point-in-time-recovery/
-        https://cloudacademy.com/course/amazon-dynamodb-high-availability/point-in-time-recovery-demo/
-        https://cloudacademy.com/course/amazon-dynamodb-high-availability/course-summary/
+        https://cloudacademy.com/course/designing-and-implementing-an-agile-work-management-approach-1017/course-introduction/
+        https://cloudacademy.com/course/designing-and-implementing-an-agile-work-management-approach-1017/project-metrics-and-kpis/
+        https://cloudacademy.com/course/designing-and-implementing-an-agile-work-management-approach-1017/mentoring-team-members-on-agile-practices/
+        https://cloudacademy.com/course/designing-and-implementing-an-agile-work-management-approach-1017/in-team-and-cross-team-collaboration/
+        https://cloudacademy.com/course/designing-and-implementing-an-agile-work-management-approach-1017/tools-and-processes-for-agile-practices/
+        https://cloudacademy.com/course/designing-and-implementing-an-agile-work-management-approach-1017/creating-organizational-structures-for-agile-practices/
+        https://cloudacademy.com/course/designing-and-implementing-an-agile-work-management-approach-1017/course-conclusion/
 Getting course title...
-        Amazon DynamoDB High Availability Course | Cloud Academy
-Creating folder for videos...
+        Designing and Implementing an Agile Work Management Approach Course | Cloud Academy
 Downloading videos...
 [...]
 ```
