@@ -10,7 +10,7 @@ $ python3 -m pip install -r requirements.txt
 ```
 
 ## Usage
-Save cookie from Chrome to a file called cookie.txt. The cookie looks a little like this:
+Sign up for either a demo account or a 7-day trial. Just visiting the website alone doesn't work. Log in and save the cookie from Chrome to a file called cookie.txt. The cookie looks a little like this:
 ```
 louda-session=6fe4.............
 ```
