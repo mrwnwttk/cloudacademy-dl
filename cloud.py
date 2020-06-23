@@ -60,6 +60,29 @@ def get_course_mp4_url_and_title(url):
 			video_mp4_urls.append(j["course"]["stepMap"][str(v)]["data"]["player"]["sources"][i]["src"])
 	return video_mp4_urls[0], video_titles[0]
 
+def get_all_courses(url):
+	global cookie
+	global headers
+	course_list = []
+	print("Going through the pages...")
+	for i in range(1, 30):
+		current_page_url = url + "?page={}".format(i)
+		print("\t" + current_page_url)
+		r = requests.get(current_page_url, headers=headers).text
+		if "Can&#x27;t find what you&#x27;re looking for?" in r:
+			return course_list
+		r = r.split("<div name=\"libraryContent\">")[1]
+
+		regex_courses = re.findall(r"/course/[a-zA-Z0-9\-]{1,}/", r)
+		len_results = 0
+		for x in range(len(regex_courses)):
+			len_results += 1
+		if len(regex_courses) == 0:
+			return course_list
+		for x in regex_courses:
+			course_list.append(x)
+		len_results = 0
+
 def download_single_course(url):
 	global aria2cflag
 	global cookie
@@ -121,6 +144,14 @@ def download_learning_path(url):
 		download_single_course(learning_path_courses[course])
 
 url = input("Please enter a URL of the course you want to download: ")
+
+if '/library/' in url:
+	if '/courses/' in url:
+		all_the_courses = get_all_courses(url)
+		print("Number of courses: {}".format(len(all_the_courses)))
+		for course in all_the_courses:
+			download_single_course(course)
+
 if "/course/" in url:
 	download_single_course(url)
 elif "/learning-paths/" in url:
