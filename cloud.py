@@ -28,9 +28,15 @@ headers = {
 	'cookie': cookie
     }
 
+already_downloaded = []
+try:
+	with open("downloaded_courses.txt", "rt") as f:
+		already_downloaded = (f.read()).split("\n")
+except:
+	already_downloaded = []
 
 def fix_string_filename(string):
-	forbidden = ["?", "|", ":", "<", ">", "\"", "*"]
+	forbidden = ["?", "|", ":", "<", ">", "\"", "*", "/"]
 	for char in forbidden:
 		if char in string:
 			string = string.replace(char, "-")
@@ -153,8 +159,13 @@ if '/library/' in url:
 		print("Number of courses: {}".format(len(all_the_courses)))
 		for course in range(len(all_the_courses)):
 			print("Progress: [{} / {}]".format(course + 1, len(all_the_courses)))
-			download_single_course(all_the_courses[course])
-
+			if all_the_courses[course] not in already_downloaded:
+				download_single_course(all_the_courses[course])
+				with open("downloaded_courses.txt", "a+") as f:
+					already_downloaded.append(all_the_courses[course])
+					f.write("{}\n".format(all_the_courses[course]))
+			else:
+				print("Already downloaded this course!")
 if "/course/" in url:
 	download_single_course(url)
 elif "/learning-paths/" in url:
