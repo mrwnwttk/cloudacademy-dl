@@ -25,6 +25,13 @@ or
 ```
 $ python3 cloud.py --aria2c
 ```
+## Downloadable items
+This script can download courses, learning paths or entire course libraries. Example links:
+```
+https://cloudacademy.com/course/amazon-aurora-high-availability/
+https://cloudacademy.com/learning-paths/working-with-aws-databases-274/
+https://cloudacademy.com/library/amazon-web-services/courses/
+```
 ## Example
 ```
 $ python3 cloud.py
