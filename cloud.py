@@ -137,6 +137,7 @@ def download_single_course(url):
 def download_learning_path(url):
 	global cookie
 	global headers
+	global already_downloaded
 	r = requests.get(url, headers=headers)
 	r_text = r.text
 	learning_path_courses = [] 
@@ -147,7 +148,13 @@ def download_learning_path(url):
 	print("Number of courses: {}".format(len(learning_path_courses)))
 	for course in range(len(learning_path_courses)):
 		print("Downloading course [{} / {}]".format(course + 1, len(learning_path_courses)))
-		download_single_course(learning_path_courses[course])
+		if learning_path_courses[course] not in already_downloaded:
+			download_single_course(learning_path_courses[course])
+			with open("downloaded_courses.txt", "a+") as f:
+				already_downloaded.append(learning_path_courses[course])
+				f.write("{}\n".format(learning_path_courses[course]))
+		else:
+			print("Already downloaded this course!")
 
 url = input("Please enter a URL of the course you want to download: ")
 
