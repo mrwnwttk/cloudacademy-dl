@@ -124,9 +124,9 @@ def download_single_course(url):
 		if ".mp4" in video_url:
 			extension = ".mp4"
 		if aria2cflag == 1:
-			os.system("aria2c -x {} -o \"{}/{}{}\" \"{}\"".format(parallel_connections_aria2, fix_string_filename(title), fix_string_filename(video_title), extension, video_url))
+			os.system("aria2c -x {} -o \"{}/{} - {}{}\" \"{}\"".format(parallel_connections_aria2, fix_string_filename(title), u + 1, fix_string_filename(video_title), extension, video_url))
 		else:
-			urllib.request.urlretrieve(video_url, "{}/{}{}".format(fix_string_filename(title), fix_string_filename(video_title), extension))	
+			urllib.request.urlretrieve(video_url, "{}/{} - {}{}".format(fix_string_filename(title), u + 1, fix_string_filename(video_title), extension))	
 
 def download_learning_path(url):
 	global cookie
@@ -146,11 +146,14 @@ def download_learning_path(url):
 url = input("Please enter a URL of the course you want to download: ")
 
 if '/library/' in url:
-	if '/courses/' in url:
+	if '/courses' in url:
+		if url[-1] != '/':
+			url += '/'
 		all_the_courses = get_all_courses(url)
 		print("Number of courses: {}".format(len(all_the_courses)))
-		for course in all_the_courses:
-			download_single_course(course)
+		for course in range(len(all_the_courses)):
+			print("Progress: [{} / {}]".format(course + 1, len(all_the_courses)))
+			download_single_course(all_the_courses[course])
 
 if "/course/" in url:
 	download_single_course(url)
