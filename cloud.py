@@ -125,7 +125,10 @@ def download_single_course(url):
 
 	print("Downloading videos...")
 	for u in range(len(course_urls)):
-		video_url, video_title = get_course_mp4_url_and_title(course_urls[u])
+		try:
+			video_url, video_title = get_course_mp4_url_and_title(course_urls[u])
+		except:
+			return		
 		print("{} - {}".format(video_title, video_url))
 		extension = ""
 		if ".webm" in video_url:
