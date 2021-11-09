@@ -58,13 +58,16 @@ def get_course_mp4_url_and_title(url):
 	j = json.loads(content)
 	video_mp4_urls = []
 	video_titles = []
-	for value in j["course"]["stepMap"].keys():
-		v = value
-	for i in range(len(j["course"]["stepMap"][str(v)]["data"]["player"]["sources"])):
-		video_titles.append(j["course"]["stepMap"][str(v)]["data"]["title"])
-		if '1080' in j["course"]["stepMap"][str(v)]["data"]["player"]["sources"][i]["src"]:
-			video_mp4_urls.append(j["course"]["stepMap"][str(v)]["data"]["player"]["sources"][i]["src"])
-	return video_mp4_urls[0], video_titles[0]
+	try:
+		for value in j["course"]["stepMap"].keys():
+			v = value
+		for i in range(len(j["course"]["stepMap"][str(v)]["data"]["player"]["sources"])):
+			video_titles.append(j["course"]["stepMap"][str(v)]["data"]["title"])
+			if '1080' in j["course"]["stepMap"][str(v)]["data"]["player"]["sources"][i]["src"]:
+				video_mp4_urls.append(j["course"]["stepMap"][str(v)]["data"]["player"]["sources"][i]["src"])
+		return video_mp4_urls[0], video_titles[0]
+	except:
+		return
 
 def get_all_courses(url):
 	global cookie
@@ -122,7 +125,10 @@ def download_single_course(url):
 
 	print("Downloading videos...")
 	for u in range(len(course_urls)):
-		video_url, video_title = get_course_mp4_url_and_title(course_urls[u])
+		try:
+			video_url, video_title = get_course_mp4_url_and_title(course_urls[u])
+		except:
+			return		
 		print("{} - {}".format(video_title, video_url))
 		extension = ""
 		if ".webm" in video_url:
